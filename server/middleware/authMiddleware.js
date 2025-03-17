@@ -19,6 +19,28 @@ exports.protect = async (req, res, next) => {
 
       // Vérifier le token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      
+      // Mode développement pour l'utilisateur de test
+      if (process.env.NODE_ENV === 'development' && decoded.id === '123456') {
+        console.log('Mode développement: utilisateur de test accepté');
+        
+        // Créer un utilisateur de test
+        const testUser = {
+          id: '123456',
+          username: 'testuser',
+          email: 'test@example.com',
+          first_name: 'Test',
+          last_name: 'User',
+          avatar_url: '',
+          status: 'online',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        
+        // Attacher l'utilisateur à la requête
+        req.user = testUser;
+        return next();
+      }
 
       // Récupérer l'utilisateur sans le mot de passe
       const { data: user, error } = await supabase

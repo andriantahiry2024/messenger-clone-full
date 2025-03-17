@@ -52,22 +52,73 @@ exports.register = async (req, res) => {
 // Connecter un utilisateur
 exports.login = async (req, res) => {
   try {
+    console.log('Tentative de connexion avec:', { email: req.body.email, passwordProvided: !!req.body.password });
+    
     const { email, password } = req.body;
     
-    // Vérifier si l'utilisateur existe
+    // Vérifier si les données sont valides
+    if (!email || !password) {
+      console.log('Données invalides:', { email: !!email, password: !!password });
+      return res.status(400).json({ message: 'Email et mot de passe requis' });
+    }
+    
+    // Mode développement (contournement pour tester sans Supabase)
+    if (process.env.NODE_ENV === 'development' && 
+        (email === 'test@example.com' && password === 'password123')) {
+      console.log('Mode développement: connexion de test acceptée');
+      
+      // Créer un utilisateur de test
+      const testUser = {
+        id: '123456',
+        username: 'testuser',
+        email: 'test@example.com',
+        first_name: 'Test',
+        last_name: 'User',
+        avatar_url: '',
+        status: 'online',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      // Générer un token JWT
+      const token = jwt.sign(
+        { id: testUser.id },
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' }
+      );
+      
+      console.log('Connexion de test réussie');
+      
+      return res.status(200).json({
+        ...testUser,
+        token
+      });
+    }
+    
+    // Mode production - utiliser Supabase
+    console.log('Recherche de l\'utilisateur par email...');
     const user = await User.findByEmail(email);
+    
     if (!user) {
+      console.log('Utilisateur non trouvé:', email);
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
+    
+    console.log('Utilisateur trouvé, vérification du mot de passe...');
     
     // Vérifier le mot de passe
     const isMatch = await User.comparePassword(password, user.password);
     if (!isMatch) {
+      console.log('Mot de passe incorrect pour:', email);
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
     
+    console.log('Mot de passe correct, mise à jour du statut...');
+    
     // Mettre à jour le statut de l'utilisateur
     await User.updateStatus(user.id, 'online');
+    
+    console.log('Génération du token JWT...');
     
     // Générer un token JWT
     const token = jwt.sign(
@@ -76,15 +127,34 @@ exports.login = async (req, res) => {
       { expiresIn: '30d' }
     );
     
+    console.log('Token généré avec succès, préparation de la réponse...');
+    
     // Retourner les informations de l'utilisateur sans le mot de passe
     const { password: _, ...userWithoutPassword } = user;
+    
+    console.log('Connexion réussie pour:', email);
     
     res.status(200).json({
       ...userWithoutPassword,
       token
     });
   } catch (error) {
-    console.error('Erreur lors de la connexion:', error);
+    console.error('Erreur détaillée lors de la connexion:', error);
+    console.error('Stack trace:', error.stack);
+    
+    // Vérifier les erreurs liées à Supabase
+    if (error.code) {
+      console.error('Code d\'erreur Supabase:', error.code);
+      console.error('Message d\'erreur Supabase:', error.message);
+      console.error('Détails d\'erreur Supabase:', error.details);
+    }
+    
+    // Vérifier les erreurs JWT
+    if (error.name === 'JsonWebTokenError') {
+      console.error('Erreur JWT:', error.message);
+      return res.status(500).json({ message: 'Erreur de génération du token', error: error.message });
+    }
+    
     res.status(500).json({ message: 'Erreur lors de la connexion', error: error.message });
   }
 };
