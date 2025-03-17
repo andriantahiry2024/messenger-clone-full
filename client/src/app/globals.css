@@ -1,0 +1,301 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: 15, 23, 42; /* slate-900 */
+  --background: 255, 255, 255; /* white */
+  --primary: 59, 130, 246; /* blue-500 */
+  --primary-foreground: 255, 255, 255; /* white */
+  --secondary: 226, 232, 240; /* slate-200 */
+  --secondary-foreground: 15, 23, 42; /* slate-900 */
+  --muted: 241, 245, 249; /* slate-100 */
+  --muted-foreground: 100, 116, 139; /* slate-500 */
+  --accent: 241, 245, 249; /* slate-100 */
+  --accent-foreground: 15, 23, 42; /* slate-900 */
+  --destructive: 239, 68, 68; /* red-500 */
+  --destructive-foreground: 255, 255, 255; /* white */
+  --border: 226, 232, 240; /* slate-200 */
+  --input: 226, 232, 240; /* slate-200 */
+  --ring: 59, 130, 246; /* blue-500 */
+  --radius: 0.5rem;
+}
+
+.dark {
+  --foreground: 241, 245, 249; /* slate-100 */
+  --background: 17, 24, 39; /* gray-900 */
+  --primary: 59, 130, 246; /* blue-500 */
+  --primary-foreground: 255, 255, 255; /* white */
+  --secondary: 51, 65, 85; /* slate-700 */
+  --secondary-foreground: 241, 245, 249; /* slate-100 */
+  --muted: 51, 65, 85; /* slate-700 */
+  --muted-foreground: 148, 163, 184; /* slate-400 */
+  --accent: 51, 65, 85; /* slate-700 */
+  --accent-foreground: 241, 245, 249; /* slate-100 */
+  --destructive: 239, 68, 68; /* red-500 */
+  --destructive-foreground: 255, 255, 255; /* white */
+  --border: 51, 65, 85; /* slate-700 */
+  --input: 51, 65, 85; /* slate-700 */
+  --ring: 59, 130, 246; /* blue-500 */
+}
+
+body {
+  background-color: white;
+  color: rgb(15, 23, 42);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.dark body {
+  background-color: rgb(17, 24, 39);
+  color: rgb(241, 245, 249);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(226, 232, 240);
+  background-color: white;
+  color: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.dark .input-field {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(51, 65, 85);
+}
+
+.input-field:focus {
+  border-color: rgb(59, 130, 246);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(59, 130, 246);
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover {
+  background-color: rgb(37, 99, 235);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: rgb(55, 65, 81);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid rgb(226, 232, 240);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.dark .btn-secondary {
+  background-color: rgb(55, 65, 81);
+  color: rgb(229, 231, 235);
+  border-color: rgb(55, 65, 81);
+}
+
+.btn-secondary:hover {
+  background-color: rgb(249, 250, 251);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dark .btn-secondary:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Classes spécifiques à notre application */
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgb(219, 234, 254);
+  color: rgb(59, 130, 246);
+  font-weight: 600;
+  font-size: 0.875rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: rgb(34, 197, 94);
+  border: 2px solid white;
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.dark .online-indicator {
+  border-color: rgb(31, 41, 55);
+}
+
+/* Interface améliorée */
+.auth-container {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dark .auth-container {
+  background-color: rgb(31, 41, 55);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(59, 130, 246);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.auth-subtitle {
+  font-size: 1rem;
+  color: rgb(107, 114, 128);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.dark .auth-subtitle {
+  color: rgb(156, 163, 175);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: rgb(156, 163, 175);
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgb(229, 231, 235);
+}
+
+.dark .auth-divider::before,
+.dark .auth-divider::after {
+  border-color: rgb(75, 85, 99);
+}
+
+.auth-divider-text {
+  padding: 0 0.75rem;
+}
+
+/* Social login buttons */
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  border: 1px solid rgb(229, 231, 235);
+  color: rgb(75, 85, 99);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.dark .social-button {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgb(229, 231, 235);
+}
+
+.social-button:hover {
+  background-color: rgb(249, 250, 251);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dark .social-button:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+.social-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.social-button svg {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Conteneurs responsives */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
